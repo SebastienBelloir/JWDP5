@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="panier.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+    <title>Orinoco | Mon Panier</title>
+</head>
+
+<body>
+    <header class="main__header"><a href="index.html">
+            <h1> ORINOCO </h1>
+        </a>
+        <a href="panier.html">
+            <h2 id="your__cart"><i class="fas fa-shopping-cart fa-1x"></i> Mon panier <span id="span">(</span><span
+                    id="articles__in__cart">0</span><span id="span2">)</span> </h2>
+        </a>
+    </header>
+    <section id="main__wrapper">
+        <h3 id="my__cart">Mon Panier</h3>
+
+        <table id="table">
+
+            <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Id de l'article</th>
+                    <th>Lentille</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody id="cart-tablebody">
+
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th>Total du panier :</th>
+                    <th id="subtt" colspan="4"> 0 €</th>
+                </tr>
+            </tfoot>
+
+        </table>
+        <div id="buttons">
+        <a href="index.html"><button id="continue"> Continuer mon shopping</button></a>
+        
+        <button id="empty"> Vider mon panier</button>
+    </div>
+        <p id="textForm">
+            Pour valider votre commande merci de remplir le formulaire suivant :
+        </p>
+        <form id="form">
+            <label for="firstname">Votre Prénom : </label>
+            <input type="text" name="firstname" id="firstname" placeholder="Prénom" required>
+            <br>
+            <label for="lastname">Votre Nom :</label>
+            <input type="text" name="secondname" id="lastname" placeholder="Nom" required>
+            <br>
+            <label for="address">Votre Adresse : </label>
+            <input name="address" id="address" cols="25" rows="5" placeholder="Adresse" required>
+            <br>
+            <label for="city">Votre Ville : </label>
+            <input type="text" name="town" id="city" placeholder="Ville" required>
+            <br>
+            <label for="email">Votre adresse E-mail : </label>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <br>
+
+        </form>
+        <button type="button" id="submit">Envoyer</button>
+    </section>
+
+    <footer class="main__footer">
+        <h4>Designed by Belloir Sébastien © - ORINOCO - 2020 </h4>
+    </footer>
+
+    <script src="panier.js"></script>
+</body>
+
+</html>

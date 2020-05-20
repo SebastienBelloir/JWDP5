@@ -1,0 +1,94 @@
+body {
+    height: 100vh;
+    margin: 0;
+    box-sizing: border-box;
+    background-image: url(./images/paul-gaudriault-HrbLomxFBmM-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+}
+
+.main__header {
+    background-color: rgb(243, 233, 241);
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 60px;
+    color: rgb(210, 128, 63);
+    font-family: 'Special Elite', cursive;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 35px;
+    color: rgb(212, 128, 58);
+}
+
+.fa-shopping-cart {
+    background: -webkit-linear-gradient(-45deg, rgb(212, 128, 58), rgb(143, 91, 254));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h4 {
+    font-family: 'Special Elite', cursive;
+    font-size: 25px;
+}
+
+#your__cart {
+    font-size: 40px;
+    font-family: 'Special Elite', cursive;
+    color: rgb(210, 128, 63);
+}
+
+.main__footer {
+    font-size: 15px;
+    font-family: 'Special Elite', cursive;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+#add__to__cart {
+    font-size: 20px;
+    color: rgb(212, 128, 58);
+    padding: 15px;
+    border: 2px inset rgb(212, 128, 58);
+    transition: ease-in-out 1s;
+}
+
+#see__product {
+    font-size: 20px;
+    color: rgb(212, 128, 58);
+    padding: 15px;
+    border: 2px inset rgb(212, 128, 58);
+    transition: ease-in-out 1s;
+}
+
+button {
+    background-color: rgb(243, 233, 241);
+    cursor: pointer;
+    font-family: 'Special Elite', cursive;
+    font-size: 25px;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: -webkit-linear-gradient(-45deg, rgb(212, 128, 58), rgb(143, 91, 254));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: 3px solid white;
+    border-radius: 20%;
+}

@@ -1,0 +1,87 @@
+h2{
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 40px;
+    color: rgb(212,128,58);
+}
+
+h3{
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 40px;
+    color: rgb(212,128,58);
+}
+
+p{
+    font-size: 25px;
+    font-family: 'Special Elite', cursive;
+    color: rgb(210, 128, 63);
+}
+
+span{
+    display: none;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px;
+    padding: 20px 20px;
+    background-color: rgb(243, 233, 241);
+}
+
+table{
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: 22px;
+    font-family: 'Special Elite', cursive;
+}
+
+th{
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+td{
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+input{
+    width: 400px;
+    height: 30px;
+    display: flex;
+}
+
+label{
+    font-size: 20px;
+}
+
+#empty{
+    color: rgb(212,128,58);
+    padding: 15px;
+    border: 2px inset rgb(212,128,58);
+    transition: ease-in-out 1s;
+}
+
+#submit{
+    color: rgb(212,128,58);
+    padding: 15px;
+    border: 2px inset rgb(212,128,58);
+    transition: ease-in-out 1s;
+}
+
+#buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 30px;
+    width: 100%;
+}
+
+#continue{
+    color: rgb(212,128,58);
+    padding: 15px;
+    border: 2px inset rgb(212,128,58);
+    transition: ease-in-out 1s;
+}
