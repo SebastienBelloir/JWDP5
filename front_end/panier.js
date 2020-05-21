@@ -27,10 +27,8 @@ retrieveStorage();
 
 function retrieveArticlesInCart () {
     const nbrArtInCart = document.getElementById('articles__in__cart');
+    console.log(nbrArtInCart)
     nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
-    span.style.display = 'inline-block';
-    span2.style.display = 'inline-block';
-    nbrArtInCart.style.display = 'inline-block';
   }
 
 retrieveArticlesInCart();
@@ -48,8 +46,11 @@ class Camera{
 
 
 function displayCameraInTable(){
-        retrieveContent().then(response => {
-        })
+    let table = document.getElementById('table');
+    document.getElementById('form');
+    document.getElementById('submit');
+    document.getElementById('textForm');
+
     }
                 
 
