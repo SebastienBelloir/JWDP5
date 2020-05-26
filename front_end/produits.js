@@ -11,8 +11,7 @@ function getIdFromUrl() {
 
 function displayCamera(url) {
   retrieveContent(url).then(response => {
-    let camera = new Camera(response);
-    console.log(camera)
+    let camera = new Camera(response)
     const article = document.createElement('article');
     article.innerHTML = camera.displayToOrder();
     document.getElementById('main').appendChild(article);
@@ -44,12 +43,16 @@ function displayCamera(url) {
       parentCount.style.display = "inline-block";
     })
     
-    const lense = document.getElementById('lenses_select');
-    const qty = document.getElementById("quantity_select")
-    addToCart.addEventListener('click', function () {
+    
+    addToCart.addEventListener('submit', function () {
       retrieveContent(`http://localhost:3000/api/cameras/`).then(response =>{
         console.log(response)
-        let camera = response;
+        let order = response;
+        /* const id = document.getElementById("photo");
+        const dataId = id.getAttribute('data-id'); */
+        let qty = document.getElementById('quantity_select');
+        const quantityOrdered = qty.value;
+        console.log(quantityOrdered)
           /* let order = {
             id: camera._id,
             name: camera.name,
@@ -57,21 +60,26 @@ function displayCamera(url) {
             price: camera.price,
             lenses: lense.value,
           } */
-        const stringOrder = JSON.stringify(camera);
+        const stringOrder = JSON.stringify(order);
+        const qtyInCart = JSON.stringify(quantityOrdered);
+        /* const idOrder = JSON.stringify(dataId); */
+        /* localStorage.setItem('id', idOrder); */
+        localStorage.setItem('qty', qtyInCart);
         localStorage.setItem('newOrder', stringOrder);
 
-      } )
       })
-      })
-    }
+    })
+  })
+}
 
 
 function retrieveArticlesInCart () {
   let nbrArtInCart = document.getElementById('articles__in__cart');
-  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
+  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productsInCart'));
   nbrArtInCart.style.display = "inline-block";
-  console.log(nbrArtInCart)
 }
+
+retrieveArticlesInCart();
 
 
 console.log(localStorage);

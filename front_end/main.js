@@ -15,11 +15,11 @@ function getFromCameras() {
   });
 }
 
-function displayCamera() {
-  let camera = new Camera();
+function displayCamera(camera) {
+  let newCamera = new Camera(camera);
   const article = document.createElement('article');
+  article.innerHTML = newCamera.displayInList();
   document.getElementById('accueil').appendChild(article);
-  article.innerHTML = `${camera.displayInList()}`; 
 }
 
 function getCamerasById() {
@@ -45,5 +45,5 @@ function addClickListenerToButton() {
   })
 }
 
-getFromCameras();
+getFromCameras(url);
 
