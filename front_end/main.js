@@ -9,7 +9,6 @@ function getFromCameras() {
   retrieveContent(url).then(items => {
     for (let camera of items) {
       displayCamera(camera)
-      console.log(camera)
     }
     addClickListenerToButton();
   });

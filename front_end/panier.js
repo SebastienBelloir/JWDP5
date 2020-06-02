@@ -1,4 +1,4 @@
-const url = `http://localhost:3000/api/cameras/`;
+const url = "http://localhost:3000/api/cameras/";
 
 async function retrieveContent() {
     const response = await fetch(url);
@@ -12,84 +12,93 @@ function retrieveStorage (){
         p.innerHTML = `<strong> Votre panier est vide </strong>`
         document.getElementById('main__wrapper').appendChild(p);
         document.getElementById('table').style.display="none";
-        document.getElementById('buttons').style.display="none";
+        document.getElementById('empty').style.display="none";
         document.getElementById('form').style.display="none";
         document.getElementById('submit').style.display="none";
         document.getElementById('textForm').style.display="none";
         console.log("Panier vide");
-    } else {                                                                     
-        const productAddedToCart = localStorage.getItem("newOrder");
-        const showId = localStorage.getItem("id");
-        const showQty = localStorage.getItem('qty');
-        console.log(showQty);
-        console.log(showId);
+    } else {                                                                
+        const productAddedToCart = localStorage.getItem('newOrder');
         console.log(productAddedToCart);
     }
 }
+
 
 retrieveStorage();
 
 function retrieveArticlesInCart () {
     const nbrArtInCart = document.getElementById('articles__in__cart');
-    console.log(nbrArtInCart)
     nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
   }
 
 retrieveArticlesInCart();
 
-const catalog = [];
+const store = [];
+const cart = [];
 
 
-function displayCameraInTable(){
+console.log('mon store', store)
+
+
+function addToCart () {
     retrieveContent(url).then(response => {
-        for (let i = 0; i < response.length; i++) {                
-            let newCamera = new Camera(                         
-                response[i]._id,   
-                response[i].name,                              
-                response[i].price/100 + ',00 €',                              
-                response[i].lenses                              
-            )
-            catalog.push(newCamera)                               
+        for (let i = 0; i < response.length; i++) {                 
+                let newCamera = response[i];
+                store.push(newCamera);
+                console.log('new camera id', newCamera._id);
+                let article = JSON.parse(localStorage.getItem('newOrder'));
+                if (localStorage.length == null) {
+                    console.log('LocalStorage vide');
+                } if (article.id === newCamera._id){
+                    cart.push(article);
+                }
+                                          
+                    const tbody = document.getElementById("cart-tablebody");
+                    const tr = document.createElement("tr");
+                    tbody.appendChild(tr);
+                    const td1 = document.createElement("td");
+                    const td2 = document.createElement("td");
+                    const td3 = document.createElement("td");
+                    const td4 = document.createElement("td");
+                    const td5 = document.createElement("td");
+                    const td6 = document.createElement("td");
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
+                    tr.appendChild(td6);
+                    const cartLine = cart[i];
+                        td1.innerText = newCamera.name;
+                        td2.innerText = cartLine.id;
+                        td3.innerText = cartLine.lense;
+                        td4.innerHTML = `<input type="number" id="quantityinput" value=${cartLine.qte} min="1" max="10">`;
+                        td5.innerText = newCamera.price/100 + ',00 €';
+                        td6.innerText = (newCamera.price * cartLine.qte)/100 + ',00 €';
+                
+            }
+        })
+            
+    }
+
+
+addToCart();
+
+console.log('mon cart', cart)
+
+function post(content) {
+    return new Promise(function () {
+        let httpRequest = new XMLHttpRequest();
+        httpRequest.open("POST", "http://localhost:3000/api/cameras/order");
+        httpRequest.setRequestHeader("Content-Type", "application/json");
+        httpRequest.send(JSON.stringify(content));
+        httpRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status == 200 ) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+            }
         }
     })
-    console.log(catalog)
-
-    
-    const tableBody = document.getElementById('cart-tablebody');
-    const tr = document.createElement('tr');
-    tableBody.appendChild(tr);
-    const td1 = document.createElement("td");
-    const td2 = document.createElement("td");
-    const td3 = document.createElement("td");
-    const td4 = document.createElement("td");
-    const td5 = document.createElement("td");
-    const td6 = document.createElement("td");
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    tr.appendChild(td4);
-    tr.appendChild(td5);
-    tr.appendChild(td6);
-
-    const id = localStorage.getItem('id');
-    td2.innerText = id;
-    const qty = localStorage.getItem('qty');
-    td4.innerHTML = `<input type="number" id="quantityinput" value=${qty} min="1" max="10">`;
-}
-           
-displayCameraInTable();
-
-function post (toSend) {
-    let request = new XMLHttpRequest();
-    request.open("POST", url);
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(JSON.stringify(toSend));
-      request.onreadystatechange = function () {
-      if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        let response = JSON.parse(this.responseText);
-        console.log(response);
-      }
-    };
 }
 
 const emptyCart = function () {
@@ -102,16 +111,15 @@ const emptyCart = function () {
 
 emptyCart();
 
-const submit = document.getElementById("submit")
-const firstName = document.getElementById("firstname")
-const lastName = document.getElementById("lastname")
-const address = document.getElementById("address")
-const city = document.getElementById("city")
-const email = document.getElementById("email")
+const form = document.getElementById("submit");
+const firstName = document.getElementById("firstname");
+const lastName = document.getElementById("lastname");
+const address = document.getElementById("address");
+const city = document.getElementById("city");
+const email = document.getElementById("email");
 
-submit.addEventListener("click", function (event) { // Au moment du la soumission du formulaire :
-    event.preventDefault()
-    ///Creation d'une variable contact contenant les informations de contact saisie par l'utilisateur
+
+form.addEventListener("click", function () {
     const contact = {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -119,9 +127,15 @@ submit.addEventListener("click", function (event) { // Au moment du la soumissio
         city: city.value,
         email: email.value
     }
+    
 
-    const data = {contact};
+    const data =  contact ;
 
-    post(data)
- 
+    post(data).then(response => {
+        console.log(response);
+        /* window.location.href = "confirmation.html"; */
+        const myOrder = JSON.stringify(response);      
+        localStorage.setItem("myOrder",myOrder);
+        localStorage.clear(); 
+    })
 })

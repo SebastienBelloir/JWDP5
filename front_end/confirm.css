@@ -1,0 +1,17 @@
+.main__header{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+section{
+    background-color: rgb(243, 233, 241);
+    margin: 20px;
+    padding: 30px;
+}
+
+p{
+    font-size: 20px;
+    font-family: 'Special Elite', cursive;
+    text-align: center;
+}

@@ -15,7 +15,7 @@ class Camera {
     }
 
     displayToOrder(){
-        return `<img class="product__photos" src="${this.image}" alt="product photo">
+        return `<img id="photo" class="product__photos" data-id="${this.id}" src="${this.image}" alt="product photo">
                 <h3 id="camera__name">${this.name}</h3>
                 <p class="product__description"> <strong> Description : ${this.description}</strong></p>
                 <form id="sheet__form">
@@ -25,9 +25,19 @@ class Camera {
                 <label for="lenses_select">Choix de la Quantité</label><br>
                 <select id="quantity_select" required>
                 <option value=""> - Quantité - </option></select>
-                <p class="product__price"> <strong> Prix : ${this.price/100},00 €</strong></p>
+                <p id="price" class="product__price"> <strong> Prix : ${this.price/100},00 €</strong></p>
                 <button id="add__to__cart" class="product__add__to__cart"> <strong> Ajouter au panier</strong></button>
                 </form>`
     }
 }
 
+class Cartline {                                
+    constructor(Id, Name, Lense, Qte, Price) {
+        this.id = Id;
+        this.name = Name;
+        this.lense = Lense;
+        this.qte = Qte;
+        this.price = Price;
+        this.subtotal = parseInt(this.qte) * parseInt(this.price)
+    }
+}

@@ -35,7 +35,8 @@ function displayCamera(url) {
     
     addToCart.addEventListener('submit', function (e) {
       e.preventDefault();
-      let productsInCart = parseInt(parentCount.textContent);
+      let itemsNumber = parseInt(parentCount.textContent);
+      let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
       productsInCart++;
       const stringCart = JSON.stringify(productsInCart);
       localStorage.setItem('productInCart', stringCart);
@@ -45,42 +46,33 @@ function displayCamera(url) {
     
     
     addToCart.addEventListener('submit', function () {
-      retrieveContent(`http://localhost:3000/api/cameras/`).then(response =>{
-        console.log(response)
-        let order = response;
-        /* const id = document.getElementById("photo");
-        const dataId = id.getAttribute('data-id'); */
-        let qty = document.getElementById('quantity_select');
-        const quantityOrdered = qty.value;
-        console.log(quantityOrdered)
-          /* let order = {
-            id: camera._id,
-            name: camera.name,
-            quantity: qty.value,
-            price: camera.price,
-            lenses: lense.value,
-          } */
+      const lense = document.getElementById("lenses_select");
+      const qte = document.getElementById("quantity_select");
+      const id = document.getElementById("photo");
+      const dataId = id.getAttribute('data-id');
+      /* const stringOrder = JSON.parse(localStorage.getItem('newOrder') || "[]"); */
+      const order = {                       
+                id: dataId,                     
+                lense: lense.value,                    
+                qte: qte.value, 
+        }
         const stringOrder = JSON.stringify(order);
-        const qtyInCart = JSON.stringify(quantityOrdered);
-        /* const idOrder = JSON.stringify(dataId); */
-        /* localStorage.setItem('id', idOrder); */
-        localStorage.setItem('qty', qtyInCart);
-        localStorage.setItem('newOrder', stringOrder);
-
-      })
+        localStorage.setItem('newOrder',stringOrder);
     })
   })
 }
 
 
+
+
 function retrieveArticlesInCart () {
   let nbrArtInCart = document.getElementById('articles__in__cart');
-  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productsInCart'));
+  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
   nbrArtInCart.style.display = "inline-block";
 }
 
-retrieveArticlesInCart();
 
+retrieveArticlesInCart();
 
 console.log(localStorage);
 
