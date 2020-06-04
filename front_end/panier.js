@@ -18,7 +18,7 @@ function retrieveStorage (){
         document.getElementById('textForm').style.display="none";
         console.log("Panier vide");
     } else {                                                                
-        const productAddedToCart = localStorage.getItem('newOrder');
+        const productAddedToCart = localStorage.getItem('cart');
         console.log(productAddedToCart);
     }
 }
@@ -31,7 +31,7 @@ function retrieveArticlesInCart () {
     nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
   }
 
-retrieveArticlesInCart();
+/* retrieveArticlesInCart(); */
 
 const store = [];
 const cart = [];

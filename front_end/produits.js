@@ -35,34 +35,32 @@ function displayCamera(url) {
     
     addToCart.addEventListener('submit', function (e) {
       e.preventDefault();
-      let itemsNumber = parseInt(parentCount.textContent);
-      let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
-      productsInCart++;
-      const stringCart = JSON.stringify(productsInCart);
+      let itemsNumber = new Panier;
+      /* let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
+      productsInCart++; */
+      const stringCart = getDetailsOfProductsToAdd();
       localStorage.setItem('productInCart', stringCart);
-      parentCount.textContent = productsInCart;
+      parentCount.textContent = itemsNumber.afficherNbItems();
       parentCount.style.display = "inline-block";
     })
     
     
-    addToCart.addEventListener('submit', function () {
-      const lense = document.getElementById("lenses_select");
-      const qte = document.getElementById("quantity_select");
-      const id = document.getElementById("photo");
-      const dataId = id.getAttribute('data-id');
-      /* const stringOrder = JSON.parse(localStorage.getItem('newOrder') || "[]"); */
-      const order = {                       
-                id: dataId,                     
-                lense: lense.value,                    
-                qte: qte.value, 
-        }
-        const stringOrder = JSON.stringify(order);
-        localStorage.setItem('newOrder',stringOrder);
-    })
+
   })
 }
 
-
+function getDetailsOfProductsToAdd(){
+  const lense = document.getElementById("lenses_select");
+  const qte = document.getElementById("quantity_select");
+  const id = document.getElementById("photo");
+  const dataId = id.getAttribute('data-id');
+  console.log(dataId,lense.value, qte.value);
+  return {
+    "id": dataId,
+    "qte": qte.value,
+    "lense": lense.value,
+  }
+}
 
 
 function retrieveArticlesInCart () {
@@ -72,7 +70,7 @@ function retrieveArticlesInCart () {
 }
 
 
-retrieveArticlesInCart();
+/* retrieveArticlesInCart(); */
 
 console.log(localStorage);
 

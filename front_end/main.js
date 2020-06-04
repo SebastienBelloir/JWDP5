@@ -30,7 +30,7 @@ function retrieveArticlesInCart () {
   nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
 }
 
-retrieveArticlesInCart();
+/* retrieveArticlesInCart(); */
 
 function addClickListenerToButton() {
   const buttons = Array.from(document.getElementsByClassName('btn'));
