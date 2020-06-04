@@ -7,7 +7,7 @@ async function retrieveContent() {
 
 
 function retrieveStorage (){
-    if (localStorage.getItem("newOrder") === null) {
+    if (localStorage.getItem("cart") === null) {
         const p = document.createElement('p');
         p.innerHTML = `<strong> Votre panier est vide </strong>`
         document.getElementById('main__wrapper').appendChild(p);

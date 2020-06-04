@@ -38,9 +38,10 @@ function displayCamera(url) {
       let itemsNumber = new Panier;
       /* let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
       productsInCart++; */
-      const stringCart = getDetailsOfProductsToAdd();
-      localStorage.setItem('productInCart', stringCart);
-      parentCount.textContent = itemsNumber.afficherNbItems();
+      getDetailsOfProductsToAdd();
+      itemsNumber.ajouter();
+      /* localStorage.setItem('products', JSON.stringify(itemsNumber)); */
+     /*  parentCount.textContent = itemsNumber.afficherNbItems(); */
       parentCount.style.display = "inline-block";
     })
     
