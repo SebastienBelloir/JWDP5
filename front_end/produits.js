@@ -34,19 +34,15 @@ function displayCamera(url) {
     let parentCount = document.getElementById('articles__in__cart');
     
     addToCart.addEventListener('submit', function (e) {
-      e.preventDefault();
-      let itemsNumber = new Panier;
+      e.preventDefault()
+      let productToAdd = new Panier;
       /* let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
       productsInCart++; */
-      getDetailsOfProductsToAdd();
-      itemsNumber.ajouter();
+      productToAdd.ajouter(getDetailsOfProductsToAdd());
       /* localStorage.setItem('products', JSON.stringify(itemsNumber)); */
-     /*  parentCount.textContent = itemsNumber.afficherNbItems(); */
-      parentCount.style.display = "inline-block";
+      /* parentCount.textContent = afficherNbItems(productToAdd);
+      parentCount.style.display = "inline-block"; */
     })
-    
-    
-
   })
 }
 
@@ -58,7 +54,7 @@ function getDetailsOfProductsToAdd(){
   console.log(dataId,lense.value, qte.value);
   return {
     "id": dataId,
-    "qte": qte.value,
+    "qte": parseInt(qte.value),
     "lense": lense.value,
   }
 }

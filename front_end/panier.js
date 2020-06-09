@@ -6,18 +6,18 @@ async function retrieveContent() {
 }
 
 
-function retrieveStorage (){
+function retrieveStorage() {
     if (localStorage.getItem("cart") === null) {
         const p = document.createElement('p');
         p.innerHTML = `<strong> Votre panier est vide </strong>`
         document.getElementById('main__wrapper').appendChild(p);
-        document.getElementById('table').style.display="none";
-        document.getElementById('empty').style.display="none";
-        document.getElementById('form').style.display="none";
-        document.getElementById('submit').style.display="none";
-        document.getElementById('textForm').style.display="none";
+        document.getElementById('table').style.display = "none";
+        document.getElementById('empty').style.display = "none";
+        document.getElementById('form').style.display = "none";
+        document.getElementById('submit').style.display = "none";
+        document.getElementById('textForm').style.display = "none";
         console.log("Panier vide");
-    } else {                                                                
+    } else {
         const productAddedToCart = localStorage.getItem('cart');
         console.log(productAddedToCart);
     }
@@ -26,10 +26,10 @@ function retrieveStorage (){
 
 retrieveStorage();
 
-function retrieveArticlesInCart () {
+function retrieveArticlesInCart() {
     const nbrArtInCart = document.getElementById('articles__in__cart');
     nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
-  }
+}
 
 /* retrieveArticlesInCart(); */
 
@@ -40,46 +40,57 @@ const cart = [];
 console.log('mon store', store)
 
 
-function addToCart () {
+function addToCart() {
     retrieveContent(url).then(response => {
-        for (let i = 0; i < response.length; i++) {                 
-                let newCamera = response[i];
-                store.push(newCamera);
-                console.log('new camera id', newCamera._id);
-                let article = JSON.parse(localStorage.getItem('newOrder'));
-                if (localStorage.length == null) {
-                    console.log('LocalStorage vide');
-                } if (article.id === newCamera._id){
-                    cart.push(article);
-                }
-                                          
-                    const tbody = document.getElementById("cart-tablebody");
-                    const tr = document.createElement("tr");
-                    tbody.appendChild(tr);
-                    const td1 = document.createElement("td");
-                    const td2 = document.createElement("td");
-                    const td3 = document.createElement("td");
-                    const td4 = document.createElement("td");
-                    const td5 = document.createElement("td");
-                    const td6 = document.createElement("td");
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
-                    tr.appendChild(td3);
-                    tr.appendChild(td4);
-                    tr.appendChild(td5);
-                    tr.appendChild(td6);
-                    const cartLine = cart[i];
-                        td1.innerText = newCamera.name;
-                        td2.innerText = cartLine.id;
-                        td3.innerText = cartLine.lense;
-                        td4.innerHTML = `<input type="number" id="quantityinput" value=${cartLine.qte} min="1" max="10">`;
-                        td5.innerText = newCamera.price/100 + ',00 €';
-                        td6.innerText = (newCamera.price * cartLine.qte)/100 + ',00 €';
-                
+        for (let i = 0; i < response.length; i++) {
+            let newCamera = response[i];
+            store.push(newCamera);
+        }
+
+        let productAddedToCart = JSON.parse(localStorage.getItem('cart'));
+        for (let i = 0; i < productAddedToCart.length; i++) {
+            let newProduct = productAddedToCart[i];
+            cart.push(newProduct);
+        }
+
+        let subCounter = 0
+        for (let i = 0; i < cart.length; i++) {
+            if (store[i]._id.split("_")[0] === cart[i].id) {
+
+            const tbody = document.getElementById("cart-tablebody");
+            const tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            const td1 = document.createElement("td");
+            const td2 = document.createElement("td");
+            const td3 = document.createElement("td");
+            const td4 = document.createElement("td");
+            const td5 = document.createElement("td");
+            const td6 = document.createElement("td");
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+            const cartLine = cart[i];
+            td1.innerText = store[i].name;
+            td2.innerText = cartLine.id;
+            td3.innerText = cartLine.lense;
+            td4.innerHTML = `<input type="number" id="quantityinput" value=${cartLine.qte} min="1" max="10">`;
+            td5.innerText = store[i].price / 100 + ',00 €';
+            td6.innerText = (store[i].price * cartLine.qte) / 100 + ',00 €';
+
+            subCounter = subCounter + (parseInt(cartLine.subtotal / 100))
+            const subtt = document.getElementById("subtt")
+            subtt.innerText = subCounter + " €"
+            }else{
+                console.log('Aucun produit correspondant');
             }
-        })
-            
-    }
+        }
+    })
+}
+
+
 
 
 addToCart();
@@ -93,7 +104,7 @@ function post(content) {
         httpRequest.setRequestHeader("Content-Type", "application/json");
         httpRequest.send(JSON.stringify(content));
         httpRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status == 200 ) {
+            if (this.readyState === 4 && this.status == 200) {
                 let response = JSON.parse(this.responseText);
                 console.log(response);
             }
@@ -103,9 +114,9 @@ function post(content) {
 
 const emptyCart = function () {
     const emptyBtn = document.getElementById("empty")
-    emptyBtn.addEventListener("click", function () {    
-        localStorage.clear()                            
-        location.reload()                               
+    emptyBtn.addEventListener("click", function () {
+        localStorage.clear()
+        location.reload()
     })
 }
 
@@ -127,15 +138,15 @@ form.addEventListener("click", function () {
         city: city.value,
         email: email.value
     }
-    
 
-    const data =  contact ;
+
+    const data = contact;
 
     post(data).then(response => {
         console.log(response);
         /* window.location.href = "confirmation.html"; */
-        const myOrder = JSON.stringify(response);      
-        localStorage.setItem("myOrder",myOrder);
-        localStorage.clear(); 
+        const myOrder = JSON.stringify(response);
+        localStorage.setItem("myOrder", myOrder);
+        localStorage.clear();
     })
 })
