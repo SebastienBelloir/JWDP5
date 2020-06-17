@@ -1,4 +1,4 @@
-class Camera {
+class Camera { // création de la classe Camera
     constructor(camera){
         this.id = camera._id;
         this.name = camera.name;

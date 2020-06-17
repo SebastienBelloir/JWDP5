@@ -1,4 +1,4 @@
-class Panier {
+class Panier { // création de la classe Panier
     constructor(){
         this.produits = JSON.parse(localStorage.getItem("cart")) || [];
     }
@@ -18,12 +18,3 @@ class Panier {
     }
 }
 
-class Cartline {                                
-    constructor(Id, Name, Lense, Qte, Price) {
-        this.id = Id;
-        this.name = Name;
-        this.lense = Lense;
-        this.qte = Qte;
-        this.price = Price;
-    }
-}

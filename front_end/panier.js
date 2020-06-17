@@ -6,7 +6,7 @@ async function retrieveContent() {
 }
 
 
-function retrieveStorage() {
+function retrieveStorage() { // On vient récuperer nos élements dans le local storage. Si local storage = vide, rien ne s'affiche.
     if (localStorage.getItem("cart") === null) {
         const p = document.createElement('p');
         p.innerHTML = `<strong> Votre panier est vide </strong>`
@@ -23,7 +23,6 @@ function retrieveStorage() {
     }
 }
 
-
 retrieveStorage();
 
 function retrieveArticlesInCart() {
@@ -33,86 +32,28 @@ function retrieveArticlesInCart() {
 
 /* retrieveArticlesInCart(); */
 
-const store = [];
-const cart = [];
+let store = [];
+let cart = [];
 
-
-console.log('mon store', store)
-
-
-function addToCart() {
+function addToCart() { // Fonction qui pour chaque element dans le local storage, va ajouter l'item dans notre tableau de produits.
     retrieveContent(url).then(response => {
-        for (let i = 0; i < response.length; i++) {
-            let newCamera = response[i];
-            store.push(newCamera);
-        }
-
-        let productAddedToCart = JSON.parse(localStorage.getItem('cart'));
-        for (let i = 0; i < productAddedToCart.length; i++) {
-            let newProduct = productAddedToCart[i];
-            cart.push(newProduct);
-        }
-
-        let subCounter = 0
-        for (let i = 0; i < cart.length; i++) {
-            if (store[i]._id.split("_")[0] === cart[i].id) {
-
-            const tbody = document.getElementById("cart-tablebody");
-            const tr = document.createElement("tr");
-            tbody.appendChild(tr);
-            const td1 = document.createElement("td");
-            const td2 = document.createElement("td");
-            const td3 = document.createElement("td");
-            const td4 = document.createElement("td");
-            const td5 = document.createElement("td");
-            const td6 = document.createElement("td");
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            tr.appendChild(td6);
-            const cartLine = cart[i];
-            td1.innerText = store[i].name;
-            td2.innerText = cartLine.id;
-            td3.innerText = cartLine.lense;
-            td4.innerHTML = `<input type="number" id="quantityinput" value=${cartLine.qte} min="1" max="10">`;
-            td5.innerText = store[i].price / 100 + ',00 €';
-            td6.innerText = (store[i].price * cartLine.qte) / 100 + ',00 €';
-
-            subCounter = subCounter + (parseInt(cartLine.subtotal / 100))
-            const subtt = document.getElementById("subtt")
-            subtt.innerText = subCounter + " €"
-            }else{
-                console.log('Aucun produit correspondant');
-            }
-        }
+        store = response; //Initialisation de notre variable store.
+        cart = JSON.parse(localStorage.getItem('cart')); //Initialisation de notre variable cart.
+        const tbody = document.getElementById("cart-tablebody");
+        cart.forEach(cartArticle => {
+            let article = store.find(element => element._id === cartArticle.id); // création + initialisation de la variable article. On vient comparer les ID des produits dans le store avec celle du cart.
+            article.qte = cartArticle.qte; // on va chercher la qté selectionnée.
+            article.lense = cartArticle.lense; // on va chercher la lentille selectionnée.
+            console.log("article", article);
+            addRow(article, tbody); // on ajoute une ligne à notre tableau.
+            calculateTotal(article);
+        });    
     })
 }
-
-
-
 
 addToCart();
 
-console.log('mon cart', cart)
-
-function post(content) {
-    return new Promise(function () {
-        let httpRequest = new XMLHttpRequest();
-        httpRequest.open("POST", "http://localhost:3000/api/cameras/order");
-        httpRequest.setRequestHeader("Content-Type", "application/json");
-        httpRequest.send(JSON.stringify(content));
-        httpRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                console.log(response);
-            }
-        }
-    })
-}
-
-const emptyCart = function () {
+const emptyCart = function () { // fonction qui vide notre local storage
     const emptyBtn = document.getElementById("empty")
     emptyBtn.addEventListener("click", function () {
         localStorage.clear()
@@ -122,7 +63,24 @@ const emptyCart = function () {
 
 emptyCart();
 
-const form = document.getElementById("submit");
+function post(data) {
+    console.log(data);
+    return new Promise( function () {
+        let request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:3000/api/cameras/order");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(data));
+        request.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+            }
+        }
+    }) 
+}
+
+
+const submit = document.getElementById("form");
 const firstName = document.getElementById("firstname");
 const lastName = document.getElementById("lastname");
 const address = document.getElementById("address");
@@ -130,7 +88,8 @@ const city = document.getElementById("city");
 const email = document.getElementById("email");
 
 
-form.addEventListener("click", function () {
+submit.addEventListener("click", function (e) {
+    e.preventDefault();
     const contact = {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -139,14 +98,50 @@ form.addEventListener("click", function () {
         email: email.value
     }
 
+    const products = []; 
+    for (let i = 0; i < cart.length; i++) {
+        products.push(cart[i].id)
+    }
 
-    const data = contact;
-
-    post(data).then(response => {
-        console.log(response);
-        /* window.location.href = "confirmation.html"; */
-        const myOrder = JSON.stringify(response);
+    const data = {contact, products};
+    
+    post(data).then(function (response) {
+        let myOrder = JSON.stringify(response);
         localStorage.setItem("myOrder", myOrder);
-        localStorage.clear();
+        
+        
     })
+    // window.location.assign("confirmation.html");
 })
+
+
+function addRow(article, body){ // fonction qui vient ajouter une ligne à notre tableau.
+    
+    const tr = document.createElement("tr");
+    body.appendChild(tr);
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    const td3 = document.createElement("td");
+    const td4 = document.createElement("td");
+    const td5 = document.createElement("td");
+    const td6 = document.createElement("td");
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
+    td1.innerText = article.name;
+    td2.innerText = article._id;
+    td3.innerText = article.lense;
+    td4.innerHTML = `<input type="number" id="quantityinput" value=${article.qte} min="1" max="10">`;
+    td5.innerText = article.price / 100 + ',00 €';
+    td6.innerText = (article.price * article.qte) / 100 + ',00 €';
+
+}
+
+
+function calculateTotal (){
+    
+    
+}

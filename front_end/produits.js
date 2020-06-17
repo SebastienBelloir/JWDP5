@@ -40,8 +40,8 @@ function displayCamera(url) {
       productsInCart++; */
       productToAdd.ajouter(getDetailsOfProductsToAdd());
       /* localStorage.setItem('products', JSON.stringify(itemsNumber)); */
-      /* parentCount.textContent = afficherNbItems(productToAdd);
-      parentCount.style.display = "inline-block"; */
+      parentCount.textContent = afficherNbItems();
+      parentCount.style.display = "inline-block";
     })
   })
 }
