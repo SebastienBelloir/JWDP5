@@ -133,6 +133,8 @@ function addRow(article, body){ // fonction qui vient ajouter une ligne à notre
     tr.appendChild(td4);
     tr.appendChild(td5);
     tr.appendChild(td6);
+    td2.setAttribute('class', 'td2')
+    td6.setAttribute('class', 'td6');
     td1.innerText = article.name;
     td2.innerText = article._id;
     td3.innerText = article.lense;
