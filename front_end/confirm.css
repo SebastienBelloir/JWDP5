@@ -15,3 +15,9 @@ p{
     font-family: 'Special Elite', cursive;
     text-align: center;
 }
+
+@media screen and (max-width: 360px) {
+    h2{
+        font-size: 24px;
+    }
+}
