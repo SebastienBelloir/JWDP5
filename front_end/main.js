@@ -25,12 +25,16 @@ function getCamerasById() {
   retrieveContent(url);
 }
 
-function retrieveArticlesInCart () {
+function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
   let nbrArtInCart = document.getElementById('articles__in__cart');
-  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
+  let artInStorage = JSON.parse(localStorage.getItem('cart'));
+  if (artInStorage == null){
+    console.log("storage vide");
+  }else{
+  nbrArtInCart.innerHTML = artInStorage.length;
+  }
 }
-
-/* retrieveArticlesInCart(); */
+retrieveArticlesInCart();
 
 function addClickListenerToButton() { //Fonction qui vient ajouter un eventlistener sur nos buttons.
   const buttons = Array.from(document.getElementsByClassName('btn')); // on vient créer un tableau avec nos boutons.
@@ -46,3 +50,4 @@ function addClickListenerToButton() { //Fonction qui vient ajouter un eventliste
 
 getFromCameras(url);
 
+console.log(localStorage)

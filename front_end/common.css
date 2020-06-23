@@ -92,3 +92,21 @@ button:hover {
     border: 3px solid white;
     border-radius: 20%;
 }
+
+
+@media screen and (max-width: 360px) {
+    h1{
+        font-size: 30px;
+    }
+
+    h4{
+        font-size: 18px;
+    }
+    
+    #your__cart {
+        font-size: 25px;
+        margin-left: 10px ;
+        font-family: 'Special Elite', cursive;
+        color: rgb(210, 128, 63);
+    }
+}

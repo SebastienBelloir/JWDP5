@@ -25,35 +25,36 @@ function retrieveStorage() { // On vient récuperer nos élements dans le local 
 
 retrieveStorage();
 
-function retrieveArticlesInCart() {
-    const nbrArtInCart = document.getElementById('articles__in__cart');
-    nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
-}
-
-/* retrieveArticlesInCart(); */
 
 let store = [];
 let cart = [];
+
 
 function addToCart() { // Fonction qui pour chaque element dans le local storage, va ajouter l'item dans notre tableau de produits.
     retrieveContent(url).then(response => {
         store = response; //Initialisation de notre variable store.
         cart = JSON.parse(localStorage.getItem('cart')); //Initialisation de notre variable cart.
         const tbody = document.getElementById("cart-tablebody");
+        let subCounter = 0;
         cart.forEach(cartArticle => {
             let article = store.find(element => element._id === cartArticle.id); // création + initialisation de la variable article. On vient comparer les ID des produits dans le store avec celle du cart.
             article.qte = cartArticle.qte; // on va chercher la qté selectionnée.
             article.lense = cartArticle.lense; // on va chercher la lentille selectionnée.
             console.log("article", article);
             addRow(article, tbody); // on ajoute une ligne à notre tableau.
-            calculateTotal(article);
-        });    
+            let articlePrices = article.price * article.qte/100;
+            console.log(articlePrices)
+            subCounter = subCounter + (parseInt(articlePrices))
+            let subtt = document.getElementById('subtt');
+            subtt.innerText = subCounter + ',00 €';
+            sessionStorage.setItem("total",subCounter);
+        });     
     })
 }
 
 addToCart();
 
-const emptyCart = function () { // fonction qui vide notre local storage
+const emptyCart = function () { // fonction qui vide notre local storage et donc notre panier.
     const emptyBtn = document.getElementById("empty")
     emptyBtn.addEventListener("click", function () {
         localStorage.clear()
@@ -63,24 +64,26 @@ const emptyCart = function () { // fonction qui vide notre local storage
 
 emptyCart();
 
-function post(data) {
+function postForm(data) { // Fonction Post qui va nous servir à envoyer les données à l'API.
     console.log(data);
-    return new Promise( function () {
+    return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
         request.open("POST", "http://localhost:3000/api/cameras/order");
         request.setRequestHeader("Content-Type", "application/json");
         request.send(JSON.stringify(data));
         request.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status == 200) {
+            console.log(this);
+            if (this.readyState === 4 && this.status == 201) {
                 let response = JSON.parse(this.responseText);
                 console.log(response);
+                resolve(response);
             }
         }
     }) 
 }
 
 
-const submit = document.getElementById("form");
+const form = document.getElementById("form");
 const firstName = document.getElementById("firstname");
 const lastName = document.getElementById("lastname");
 const address = document.getElementById("address");
@@ -88,9 +91,9 @@ const city = document.getElementById("city");
 const email = document.getElementById("email");
 
 
-submit.addEventListener("click", function (e) {
+form.addEventListener("submit", function (e) { // On vient écouter notre formulaire lorsque nous submittons les données
     e.preventDefault();
-    const contact = {
+    const contact = { // Objet contact envoyé à l'API.
         firstName: firstName.value,
         lastName: lastName.value,
         address: address.value,
@@ -98,20 +101,19 @@ submit.addEventListener("click", function (e) {
         email: email.value
     }
 
-    const products = []; 
+    const products = []; // Tableau Produits contenant seulement l'ID produits.
     for (let i = 0; i < cart.length; i++) {
         products.push(cart[i].id)
     }
 
     const data = {contact, products};
     
-    post(data).then(function (response) {
+    postForm(data).then(function (response) { //Envoi de nos données avec la fonction Post.
+        location.href = "confirmation.html";
         let myOrder = JSON.stringify(response);
-        localStorage.setItem("myOrder", myOrder);
-        
-        
+        sessionStorage.setItem("myOrder", myOrder);
+        localStorage.clear(); // stockage de la réponse du serveur dans notre local storage.
     })
-    // window.location.assign("confirmation.html");
 })
 
 
@@ -141,7 +143,14 @@ function addRow(article, body){ // fonction qui vient ajouter une ligne à notre
 }
 
 
-function calculateTotal (){
-    
-    
-}
+
+function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
+    let nbrArtInCart = document.getElementById('articles__in__cart');
+    let artInStorage = JSON.parse(localStorage.getItem('cart'));
+    if (artInStorage == null){
+      console.log("storage vide");
+    }else{
+    nbrArtInCart.innerHTML = artInStorage.length;
+    }
+  }
+  retrieveArticlesInCart();

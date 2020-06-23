@@ -1,22 +1,22 @@
-async function retrieveContent(url) {
+async function retrieveContent(url) { //Fonction asynchrone qui va récuperer la reponse de l'API.
   const response = await fetch(url);
   return response.json();
 }
 
-function getIdFromUrl() {
+function getIdFromUrl() { // Fonction qui vient récupérer l'ID de notre URL.
   const params = location.search;
   const id = params.split("id=")[1]
   return id;
 }
 
-function displayCamera(url) {
+function displayCamera(url) { // Fonction qui vient récupérer les informations de nos produits.
   retrieveContent(url).then(response => {
-    let camera = new Camera(response)
+    let camera = new Camera(response) //Instanciation de notre classe camera.
     const article = document.createElement('article');
-    article.innerHTML = camera.displayToOrder();
+    article.innerHTML = camera.displayToOrder(); // Appel de la fonction présente dans notre classe camera.
     document.getElementById('main').appendChild(article);
     
-    const select = document.getElementById('lenses_select');
+    const select = document.getElementById('lenses_select'); // Ajout du menu de selection de la lentille.
     for (let i = 0; i < camera.lenses.length; i++) {
       const lense = camera.lenses[i];
       const option = select.appendChild(document.createElement("option"));
@@ -24,29 +24,23 @@ function displayCamera(url) {
       option.textContent = lense;
     }
     
-    const selectQuantity = document.getElementById('quantity_select');
+    const selectQuantity = document.getElementById('quantity_select'); // Ajout du menu de selection de la quantité.
     for (let i = 1; i <= 10; i++) {
       const option = selectQuantity.appendChild(document.createElement("option"));
       option.textContent = i;
     }
     
     const addToCart = document.getElementById('sheet__form');
-    let parentCount = document.getElementById('articles__in__cart');
     
-    addToCart.addEventListener('submit', function (e) {
+    addToCart.addEventListener('submit', function (e) { // Ajout du listener sur notre formulaire.
       e.preventDefault()
-      let productToAdd = new Panier;
-      /* let productsInCart = itemsNumber >= 0 ? itemsNumber : 0; // condition ternaire = equivalent if else
-      productsInCart++; */
+      let productToAdd = new Panier; // instanciation de notre classe Panier.
       productToAdd.ajouter(getDetailsOfProductsToAdd());
-      /* localStorage.setItem('products', JSON.stringify(itemsNumber)); */
-      parentCount.textContent = afficherNbItems();
-      parentCount.style.display = "inline-block";
     })
   })
 }
 
-function getDetailsOfProductsToAdd(){
+function getDetailsOfProductsToAdd(){ // Fonction qui récupère les élements qu'on store dans notre local storage.
   const lense = document.getElementById("lenses_select");
   const qte = document.getElementById("quantity_select");
   const id = document.getElementById("photo");
@@ -59,17 +53,17 @@ function getDetailsOfProductsToAdd(){
   }
 }
 
-
-function retrieveArticlesInCart () {
+function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
   let nbrArtInCart = document.getElementById('articles__in__cart');
-  nbrArtInCart.textContent = JSON.parse(localStorage.getItem('productInCart'));
-  nbrArtInCart.style.display = "inline-block";
+  let artInStorage = JSON.parse(localStorage.getItem('cart'));
+  if (artInStorage == null){
+    console.log("storage vide");
+  }else{
+  nbrArtInCart.innerHTML = artInStorage.length;
+  console.log(nbrArtInCart);
+  }
 }
-
-
-/* retrieveArticlesInCart(); */
-
-console.log(localStorage);
+retrieveArticlesInCart();
 
 const id = getIdFromUrl();
 let url = `http://localhost:3000/api/cameras/${id}`;

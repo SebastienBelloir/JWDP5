@@ -88,3 +88,40 @@ label{
     transition: ease-in-out 1s;
 }
 
+@media screen and (max-width: 768px) {
+    table{
+        font-size: 19px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    table{
+        font-size: 16px;
+    }
+    
+    h3{
+        font-size: 20px;
+    }
+
+    input{
+        width: 230px;
+    }
+
+    button{
+        font-size: 16px;
+        margin: 10px;
+    }
+
+    p{
+        font-size: 16px;
+    }
+
+    label{
+        font-size: 16px;
+    }
+
+    #quantityinput{
+        width: 40px;
+    }
+    
+}
