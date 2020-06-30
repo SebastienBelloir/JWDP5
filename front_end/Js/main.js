@@ -1,10 +1,5 @@
 const url = `http://localhost:3000/api/cameras/`;
 
-async function retrieveContent() { // Fonction asynchrone qui va récuperer la reponse de l'API. 
-  const response = await fetch(url);
-  return response.json();
-}
-
 function getFromCameras() { // Fonction qui vient appeler la fonction display camera pour chaque item de la réponse.
   retrieveContent(url).then(items => {
     for (let camera of items) {
@@ -25,16 +20,7 @@ function getCamerasById() {
   retrieveContent(url);
 }
 
-function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
-  let nbrArtInCart = document.getElementById('articles__in__cart');
-  let artInStorage = JSON.parse(localStorage.getItem('cart'));
-  if (artInStorage == null){
-    console.log("storage vide");
-  }else{
-  nbrArtInCart.innerHTML = artInStorage.length;
-  }
-}
-retrieveArticlesInCart();
+
 
 function addClickListenerToButton() { //Fonction qui vient ajouter un eventlistener sur nos buttons.
   const buttons = Array.from(document.getElementsByClassName('btn')); // on vient créer un tableau avec nos boutons.
@@ -49,5 +35,3 @@ function addClickListenerToButton() { //Fonction qui vient ajouter un eventliste
 }
 
 getFromCameras(url);
-
-console.log(localStorage)

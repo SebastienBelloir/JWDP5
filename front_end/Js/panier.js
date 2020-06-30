@@ -1,11 +1,5 @@
 const url = "http://localhost:3000/api/cameras/";
 
-async function retrieveContent() {
-    const response = await fetch(url);
-    return response.json();
-}
-
-
 function retrieveStorage() { // On vient récuperer nos élements dans le local storage. Si local storage = vide, rien ne s'affiche.
     if (localStorage.getItem("cart") === null) {
         const p = document.createElement('p');
@@ -19,7 +13,6 @@ function retrieveStorage() { // On vient récuperer nos élements dans le local 
         console.log("Panier vide");
     } else {
         const productAddedToCart = localStorage.getItem('cart');
-        console.log(productAddedToCart);
     }
 }
 
@@ -40,10 +33,8 @@ function addToCart() { // Fonction qui pour chaque element dans le local storage
             let article = store.find(element => element._id === cartArticle.id); // création + initialisation de la variable article. On vient comparer les ID des produits dans le store avec celle du cart.
             article.qte = cartArticle.qte; // on va chercher la qté selectionnée.
             article.lense = cartArticle.lense; // on va chercher la lentille selectionnée.
-            console.log("article", article);
             addRow(article, tbody); // on ajoute une ligne à notre tableau.
-            let articlePrices = article.price * article.qte/100;
-            console.log(articlePrices)
+            let articlePrices = article.price * article.qte/100; // Calcul du prix total.
             subCounter = subCounter + (parseInt(articlePrices))
             let subtt = document.getElementById('subtt');
             subtt.innerText = subCounter + ',00 €';
@@ -138,21 +129,9 @@ function addRow(article, body){ // fonction qui vient ajouter une ligne à notre
     td1.innerText = article.name;
     td2.innerText = article._id;
     td3.innerText = article.lense;
-    td4.innerHTML = `<input type="number" id="quantityinput" value=${article.qte} min="1" max="10">`;
+    td4.innerHTML = `<input type="number" id="quantityinput" value=${article.qte} min="1" max="10" readonly>`;
     td5.innerText = article.price / 100 + ',00 €';
     td6.innerText = (article.price * article.qte) / 100 + ',00 €';
 
 }
 
-
-
-function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
-    let nbrArtInCart = document.getElementById('articles__in__cart');
-    let artInStorage = JSON.parse(localStorage.getItem('cart'));
-    if (artInStorage == null){
-      console.log("storage vide");
-    }else{
-    nbrArtInCart.innerHTML = artInStorage.length;
-    }
-  }
-  retrieveArticlesInCart();

@@ -1,8 +1,3 @@
-async function retrieveContent(url) { //Fonction asynchrone qui va récuperer la reponse de l'API.
-  const response = await fetch(url);
-  return response.json();
-}
-
 function getIdFromUrl() { // Fonction qui vient récupérer l'ID de notre URL.
   const params = location.search;
   const id = params.split("id=")[1]
@@ -36,6 +31,7 @@ function displayCamera(url) { // Fonction qui vient récupérer les informations
       e.preventDefault()
       let productToAdd = new Panier; // instanciation de notre classe Panier.
       productToAdd.ajouter(getDetailsOfProductsToAdd());
+      retrieveArticlesInCart();
     })
   })
 }
@@ -45,7 +41,6 @@ function getDetailsOfProductsToAdd(){ // Fonction qui récupère les élements q
   const qte = document.getElementById("quantity_select");
   const id = document.getElementById("photo");
   const dataId = id.getAttribute('data-id');
-  console.log(dataId,lense.value, qte.value);
   return {
     "id": dataId,
     "qte": parseInt(qte.value),
@@ -53,17 +48,7 @@ function getDetailsOfProductsToAdd(){ // Fonction qui récupère les élements q
   }
 }
 
-function retrieveArticlesInCart() { // Fonction qui vient afficher le nombre de produits dans notre panier.
-  let nbrArtInCart = document.getElementById('articles__in__cart');
-  let artInStorage = JSON.parse(localStorage.getItem('cart'));
-  if (artInStorage == null){
-    console.log("storage vide");
-  }else{
-  nbrArtInCart.innerHTML = artInStorage.length;
-  console.log(nbrArtInCart);
-  }
-}
-retrieveArticlesInCart();
+
 
 const id = getIdFromUrl();
 let url = `http://localhost:3000/api/cameras/${id}`;

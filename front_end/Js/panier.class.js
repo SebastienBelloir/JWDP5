@@ -11,7 +11,6 @@ class Panier { // création de la classe Panier
             this.produits.push(item);
         }
         localStorage.setItem('cart', JSON.stringify(this.produits));
-        console.log(this.produits);
     }
     afficherNbItems(){
         return this.produits.length;

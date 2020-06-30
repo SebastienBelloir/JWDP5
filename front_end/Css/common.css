@@ -2,7 +2,7 @@ body {
     height: 100vh;
     margin: 0;
     box-sizing: border-box;
-    background-image: url(./images/paul-gaudriault-HrbLomxFBmM-unsplash.jpg);
+    background-image: url(../images/paul-gaudriault-HrbLomxFBmM-unsplash.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
