@@ -93,6 +93,42 @@ button:hover {
     border-radius: 20%;
 }
 
+@media screen and (max-width: 768px) {
+    h1{
+        font-size: 50px;
+    }
+
+    #your__cart{
+        font-size: 35px;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    h1{
+        font-size: 35px;
+    }
+
+    h3{
+        font-size: 20px;
+    }
+
+    h4{
+        font-size: 20px;
+    }
+
+    #text__panier{
+        display: none;
+    }
+
+    #your__cart{
+        font-size: 30px;
+    }
+
+    article{
+        padding: 5px 5px;
+    }
+
+}
 
 @media screen and (max-width: 360px) {
     h1{
@@ -100,7 +136,7 @@ button:hover {
     }
 
     h4{
-        font-size: 18px;
+        font-size: 16px;
     }
     
     #your__cart {
