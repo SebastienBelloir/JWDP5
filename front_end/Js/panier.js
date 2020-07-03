@@ -28,7 +28,7 @@ function addToCart() { // Fonction qui pour chaque element dans le local storage
         store = response; //Initialisation de notre variable store.
         cart = JSON.parse(localStorage.getItem('cart')); //Initialisation de notre variable cart.
         const tbody = document.getElementById("cart-tablebody");
-        let subCounter = 0;
+        let subCounter = 0; //déclaration et initialisation de notre variable sous total.
         cart.forEach(cartArticle => {
             let article = store.find(element => element._id === cartArticle.id); // création + initialisation de la variable article. On vient comparer les ID des produits dans le store avec celle du cart.
             article.qte = cartArticle.qte; // on va chercher la qté selectionnée.
@@ -56,14 +56,12 @@ const emptyCart = function () { // fonction qui vide notre local storage et donc
 emptyCart();
 
 function postForm(data) { // Fonction Post qui va nous servir à envoyer les données à l'API.
-    console.log(data);
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
         request.open("POST", "http://localhost:3000/api/cameras/order");
         request.setRequestHeader("Content-Type", "application/json");
         request.send(JSON.stringify(data));
         request.onreadystatechange = function () {
-            console.log(this);
             if (this.readyState === 4 && this.status == 201) {
                 let response = JSON.parse(this.responseText);
                 console.log(response);

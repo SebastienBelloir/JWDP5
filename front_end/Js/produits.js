@@ -1,6 +1,6 @@
 function getIdFromUrl() { // Fonction qui vient récupérer l'ID de notre URL.
-  const params = location.search;
-  const id = params.split("id=")[1]
+  const params = location.search; // on vient récuperer le querystring de notre URL => la partie après le ?.
+  const id = params.split("id=")[1]; // on vient enlever "id" et retourner la string qui suit donc l'id.
   return id;
 }
 

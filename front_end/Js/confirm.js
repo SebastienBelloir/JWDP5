@@ -1,5 +1,4 @@
 const myOrder = JSON.parse(sessionStorage.getItem("myOrder")); // Récupération de notre local storage.
-console.log(myOrder);
 
 let section = document.getElementById('order__confirmation');
 let div = document.createElement('div');
